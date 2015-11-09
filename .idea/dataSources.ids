@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - weibo@localhost" uuid="c8e41917-fcd5-4b4a-83bf-cb961d253e91">
+    <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.34 ( Revision: jess.balint@oracle.com-20141014163213-wqbwpf1ok2kvo1om )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="weibo"/>
+    <table name="level" schema="" catalog="weibo" type="TABLE">
+      <column name="levelId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="score" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
+      <primary-key name="PRIMARY" columns="levelId"/>
+      <exported-key name="FK_USER_LEVEL" table="user" schema="" catalog="weibo" columns="levelId"/>
+    </table>
+    <table name="post" schema="" catalog="weibo" type="TABLE">
+      <column name="postId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="userId" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="from" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="repoNum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="cmmtNum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="starNum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="publishTime" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="readNum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="parisedNum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="postId"/>
+      <foreign-key name="FK_POST_USER" columns="userId" ref-table="user" ref-schema="" ref-catalog="weibo" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_PT_POST" table="post_tag" schema="" catalog="weibo" columns="postId"/>
+      <exported-key name="FK_REPLY_POST" table="reply" schema="" catalog="weibo" columns="postId"/>
+      <exported-key name="FK_STORE_POST" table="store" schema="" catalog="weibo" columns="postId"/>
+      <index name="FK_POST_USER" unique="false" columns="userId"/>
+    </table>
+    <table name="post_tag" schema="" catalog="weibo" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="postId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="tagId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_PT_POST" columns="postId" ref-table="post" ref-schema="" ref-catalog="weibo" ref-columns="postId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_PT_TAG" columns="tagId" ref-table="tag" ref-schema="" ref-catalog="weibo" ref-columns="tagId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_PT_POST" unique="false" columns="postId"/>
+      <index name="FK_PT_TAG" unique="false" columns="tagId"/>
+    </table>
+    <table name="reply" schema="" catalog="weibo" type="TABLE">
+      <column name="replyId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="userId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="postId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="publishTime" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <primary-key name="PRIMARY" columns="replyId"/>
+      <foreign-key name="FK_REPLY_POST" columns="postId" ref-table="post" ref-schema="" ref-catalog="weibo" ref-columns="postId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_REPLY_USER" columns="userId" ref-table="user" ref-schema="" ref-catalog="weibo" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_REPLY_POST" unique="false" columns="postId"/>
+      <index name="FK_REPLY_USER" unique="false" columns="userId"/>
+    </table>
+    <table name="siteinfo" schema="" catalog="weibo" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="site_name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="site_introduce" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="copy_right" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="store" schema="" catalog="weibo" type="TABLE">
+      <column name="storeId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="postId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="userId" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="storeId"/>
+      <foreign-key name="FK_STORE_POST" columns="postId" ref-table="post" ref-schema="" ref-catalog="weibo" ref-columns="postId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_STORE_USER" columns="userId" ref-table="user" ref-schema="" ref-catalog="weibo" ref-columns="userId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK_STORE_POST" unique="false" columns="postId"/>
+      <index name="FK_STORE_USER" unique="false" columns="userId"/>
+    </table>
+    <table name="tag" schema="" catalog="weibo" type="TABLE">
+      <column name="tagId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="addTime" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <primary-key name="PRIMARY" columns="tagId"/>
+      <exported-key name="FK_PT_TAG" table="post_tag" schema="" catalog="weibo" columns="tagId"/>
+    </table>
+    <table name="user" schema="" catalog="weibo" type="TABLE">
+      <column name="userId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="loginId" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="pwd" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" def="Jyc="/>
+      <column name="region" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="birthday" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="phone" sqlType="VARCHAR" precision="20" scale="0" nullable="true" jdbcType="12"/>
+      <column name="fansNum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
+      <column name="focusNum" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
+      <column name="levelId" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MQ=="/>
+      <column name="userTypeId" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4" def="MTAwMg=="/>
+      <column name="status" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6" def="MA=="/>
+      <column name="token" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="token_exptime" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="email" sqlType="VARCHAR" precision="50" scale="0" nullable="false" jdbcType="12"/>
+      <column name="regtime" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="userId"/>
+      <foreign-key name="FK_USER_LEVEL" columns="levelId" ref-table="level" ref-schema="" ref-catalog="weibo" ref-columns="levelId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_USER_USERTYPE" columns="userTypeId" ref-table="usertype" ref-schema="" ref-catalog="weibo" ref-columns="userTypeId" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_POST_USER" table="post" schema="" catalog="weibo" columns="userId"/>
+      <exported-key name="FK_REPLY_USER" table="reply" schema="" catalog="weibo" columns="userId"/>
+      <exported-key name="FK_STORE_USER" table="store" schema="" catalog="weibo" columns="userId"/>
+      <index name="FK_USER_LEVEL" unique="false" columns="levelId"/>
+      <index name="FK_USER_USERTYPE" unique="false" columns="userTypeId"/>
+    </table>
+    <table name="usertype" schema="" catalog="weibo" type="TABLE">
+      <column name="userTypeId" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="name" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="userTypeId"/>
+      <exported-key name="FK_USER_USERTYPE" table="user" schema="" catalog="weibo" columns="userTypeId"/>
+    </table>
+  </data-source>
+</component>
